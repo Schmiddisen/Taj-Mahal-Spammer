@@ -45,7 +45,7 @@ def send_request(payload):
     else:
         s = secrets.token_hex(3)
         r = requests.get('https://iot24c.de/tajmahal/', params={'color': f'#{s}', 'ajax': 'true', 'beforesend': ''})
-        if 'true' in r.text:
+        if 'false' in r.text:
             print('Fehler aufgetreten!')
             print(r.text)
 

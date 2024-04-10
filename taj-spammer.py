@@ -49,12 +49,12 @@ def send_request(payload):
             print('Fehler aufgetreten!')
             print(r.text)
 
+if not mode:
+    mode = 'rainbow'
+if not delay:
+    delay = 15
+print(f'Sending {mode} with a delay of {delay}!')
 
 while True:
-    if not mode:
-        mode = 'rainbow'
-    if not delay:
-        delay = 15
-    print(f'Sending {mode} with a delay of {delay}!')
     send_request(payloads[mode])
     time.sleep(int(delay))

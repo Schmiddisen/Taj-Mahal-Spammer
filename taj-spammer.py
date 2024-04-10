@@ -1,6 +1,7 @@
 import time
 import requests
 import argparse
+import secrets
 
 parser = argparse.ArgumentParser(
                     prog='taj-spammer.py',
@@ -29,14 +30,22 @@ payloads = \
         'blue': {'color': '#0000ff', 'ajax': 'true', 'beforesend': ''},
         'indigo': {'color': '#4b0082', 'ajax': 'true', 'beforesend': ''},
         'violet': {'color': '#8b00ff', 'ajax': 'true', 'beforesend': ''},
-    }
+    },
+    'random':'random'
 }
 
 
 def send_request(payload):
-    for _, values in payload.items():
-        r = requests.get('https://iot24c.de/tajmahal/', params=values)
-        if 'false' in r.text:
+    if payload != 'random':
+        for _, values in payload.items():
+            r = requests.get('https://iot24c.de/tajmahal/', params=values)
+            if 'false' in r.text:
+                print('Fehler aufgetreten!')
+                print(r.text)
+    else:
+        s = secrets.token_hex(3)
+        r = requests.get('https://iot24c.de/tajmahal/', params={'color': f'#{s}', 'ajax': 'true', 'beforesend': ''})
+        if 'true' in r.text:
             print('Fehler aufgetreten!')
             print(r.text)
 
@@ -48,4 +57,4 @@ while True:
         delay = 15
     print(f'Sending {mode} with a delay of {delay}!')
     send_request(payloads[mode])
-    time.sleep(delay)
+    time.sleep(int(delay))
